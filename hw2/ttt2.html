@@ -22,14 +22,14 @@
     }
 
     .square {
-      /* Each square is 100+10+2 pixels wide.*/
+      /* Each square is 100 + 3*2 + 5*2 pixels wide.*/
       display: flex;
       justify-content: center;
       align-items: center;
       width: 100px;
       height: 100px;
-      margin: 5px;             /* 5px margin around each square */
-      border: 3px solid black;   /* Visible border */
+      margin: 5px;             
+      border: 3px solid black;   
       background-color: #b6b6b6;
       font-size: 60px;
     }
@@ -73,6 +73,9 @@
         document.write( "<div class='square' id='" + id + "'></div>" );
       }
       
+      // Place X's and O's.
+      // X in the 5th and 8th container.
+      // O in the 6th container.
       fifthBox = document.querySelector('.container > .square:nth-of-type(5)');
       sixthBox = document.querySelector('.container > .square:nth-of-type(6)');
       eigthBox = document.querySelector('.container > .square:nth-of-type(8)');
@@ -80,9 +83,6 @@
       fifthBox.innerHTML = 'X';
       sixthBox.innerHTML = 'O';
       eigthBox.innerHTML = 'X';
-      // Place X's and O's.
-      // X in the 5th and 8th container.
-      // O in the 6th container.
 
 
 
