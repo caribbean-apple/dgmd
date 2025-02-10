@@ -1,0 +1,11 @@
+It's in the javascript block, but it's technically css code.
+
+I liked the selector for the boxes to fill x's and o's:
+
+'.container > .square:nth-of-type(5)'
+
+I had to read a bit about this. At first I wasn't sure if it would take the 5th .square overall, if it is a direct child of a container, or if it would take the 5th square of those which are direct children of a .container.
+
+The answer is the latter. That means that the expression must be evaluated as if it had the parenthesis here:
+
+'(.container > .square):nth-of-type(5)'
