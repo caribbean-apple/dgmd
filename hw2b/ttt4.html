@@ -34,13 +34,14 @@
       font-size: 60px;
     }
 
-    /* Change background color on hover */
     .square:hover {
+      /* Change background color on hover */
       background-color: #A11438;
       color: black;
       font-weight: 900;
       border: 3px solid black;
     }
+
     #turn-box, #winner-box {
       border: 1px dotted black;
     }
@@ -66,9 +67,12 @@
   <div class="container">
 
     <script>
-      let turnStart = Math.round(Math.random()); // When turn is even, it is X's turn.
+      // When turn is even, it is X's turn.
+      // We will alert() when the game is over.
+      let turnStart = Math.round(Math.random()); 
       let turn = turnStart;
       let turnEnd = turnStart === 0 ? 9 : 10;
+
       let turnSpan = document.querySelector('#turn-text');
       let turnText = turn % 2 === 0 ? 'X': 'O';
       turnSpan.textContent = turnText;
