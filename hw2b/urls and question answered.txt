@@ -1,0 +1,12 @@
+urls:
+
+
+
+Question answered:
+Helpful html design for selector efficiency:
+- The squares are created with both a class and an ID. This allows them to be all selected at once, or also individually as needed.
+- IDs are given names that help identify them without having to check back into the code. For example, 'winner-box' shows the winner, and 'turn-box' shows whose turn it is.
+
+HTML Design that could use improvement:
+- Right now, we cannot reference a square by its row and column, only by absolute number. For some use cases, or for games with a bigger board, it would be helpful to be able to identify e.g. all squares in a particular row or in a particular column. For example, that could help with the win condition. Using a grid instead of a flexbox would help with this.
+- .square as a name could be misinterpreted, since there are other square-shaped areas on the page. It could be renamed .inner-square for this purpose.. however, there is a tradeoff for verbosity that should also be considered here.
