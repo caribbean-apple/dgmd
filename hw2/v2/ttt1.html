@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tic Tac Toe Board</title>
+  <style>
+    body {
+      background-color: white;
+    }
+    
+    h1 {
+      width: fit-content;
+      margin: 0 auto;
+      border-bottom: 5px solid #a11438;
+    }
+
+    .container {
+      width: fit-content;
+      margin: 20px auto;
+      display: grid;
+      grid-template-rows: repeat(3, 100px);
+      grid-template-columns: repeat(3, 100px);
+      gap: 10px;
+    }
+
+    .square {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 3px solid black;   /* Visible border */
+      background-color: #b6b6b6;
+      font-size: 60px;
+    }
+
+    /* Change background color on hover */
+    .square:hover {
+      background-color: #A11438;
+      color: black;
+      font-weight: 900;
+      border: 3px solid black;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Harvard-themed Tic Tac Toe</h1>
+  <div class="container">
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+
+    <div class="square"></div>
+    <div class="square">X</div>
+    <div class="square">O</div>
+
+    <div class="square"></div>
+    <div class="square">X</div>
+    <div class="square"></div>
+  </div>
+
+</body>
+</html>
