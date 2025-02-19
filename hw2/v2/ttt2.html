@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tic Tac Toe Board</title>
+  <style>
+    body {
+      background-color: white;
+    }
+
+    h1 {
+      width: fit-content;
+      margin: 0 auto;
+      border-bottom: 5px solid #a11438;
+    }
+
+    .container {
+      width: fit-content;
+      margin: 20px auto;
+      display: grid;
+      grid-template-rows: repeat(3, 100px);
+      grid-template-columns: repeat(3, 100px);
+      gap: 10px;
+    }
+
+    .square {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 3px solid black;   /* Visible border */
+      background-color: #b6b6b6;
+      font-size: 60px;
+    }
+    
+    /* Change background color on hover */
+    .square:hover {
+      background-color: #A11438;
+      color: black;
+      font-weight: 900;
+      border: 3px solid black;
+    }
+    #turn-box, #winner-box {
+      border: 1px dotted black;
+    }
+
+    #box-box {
+      display: flex;
+      width: 345px;
+      justify-content: space-around;
+      margin: 20px auto;
+      font-size: 24px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <h1>Harvard-themed Tic Tac Toe</h1>
+
+  <div id="box-box">
+    <div id="turn-box">Next move: X</div>
+    <div id="winner-box">Winner: None</div>
+  </div>
+  <div class="container">
+
+    <script>
+
+      const NUM_SQUARES = 9;
+      for (i=0; i<NUM_SQUARES; i++) {
+        id = "sq" + i;
+        document.write( "<div class='square' id='" + id + "'></div>" );
+      }
+      
+      // Place X's and O's.
+      // X in the 5th and 8th container.
+      // O in the 6th container.
+      fifthBox = document.querySelector('.container > .square:nth-of-type(5)');
+      sixthBox = document.querySelector('.container > .square:nth-of-type(6)');
+      eigthBox = document.querySelector('.container > .square:nth-of-type(8)');
+
+      fifthBox.innerHTML = 'X';
+      sixthBox.innerHTML = 'O';
+      eigthBox.innerHTML = 'X';
+
+
+
+    </script>
+  </div>
+
+
+
+
+
+</body>
+</html>
