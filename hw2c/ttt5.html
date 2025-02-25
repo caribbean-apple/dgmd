@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tic Tac Toe Board</title>
+  <style>
+    :root {
+      --crimson: #A11438;
+      --grey: #b6b6b6;
+    }
+    body {
+      background-color: white;
+      text-align: center;
+    }
+    h1 {
+      width: fit-content;
+      margin: 0 auto;
+      border-bottom: 5px solid var(--crimson);
+    }
+    #header-box {
+      display: flex;
+      width: 345px;
+      margin: 8px auto;
+      justify-content: space-around;
+      font-size: 24px;
+    }
+    #turn-box, #winner-box {
+      border: 1px dotted black;
+    }
+    .board {
+      width: fit-content;
+      margin: 20px auto;
+      display: grid;
+      grid-template-rows: repeat(3, 100px);
+      grid-template-columns: repeat(3, 100px);
+      gap: 10px;
+    }
+    .square {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 3px solid black;   /* Visible border */
+      background-color: var(--grey);
+      font-size: 60px;
+    }
+    .square:hover {
+      /* Change background color on hover */
+      background-color: var(--crimson);
+      color: black;
+      font-weight: 900;
+      border: 3px solid black;
+    }
+    #start-button {
+      width: 200px;
+      padding: 4px 14px;
+      border: 5px solid var(--crimson);
+      font-size: 1.5em;
+      font-weight: 600;
+    }
+
+  </style>
+</head>
+
+<body>
+  <h1>Harvard-themed Tic Tac Toe</h1>
+  <div id="header-box">
+    <div id="turn-box">Next move: <span id="turn-text"></span></div>
+    <div id="winner-box">Winner: <span id="winner-text">None</span></div>
+  </div>
+  <div class="board">
+    <script>
+      // Place squares on the TTT board
+      const NUM_SQUARES = 9;
+      for (let i=0; i<NUM_SQUARES; i++) {
+        id = "sq" + i; // This is bad practice. It should not be global.
+        document.write( "<div class='square' id='" + id + "'></div>" );
+      }
+    </script>
+    <!-- Rest of body here. Then the final JS (at end) can access the entire DOM. -->
+  </div>
+  
+  <button id="start-button">Start Game</button>
+      
+  <script>
+    // Set up TTT board functionality.
+    // When turn is even, it is X's turn.
+    let turn = Math.round(Math.random());
+    let turnSpan = document.querySelector('#turn-text');
+    let turnText = turn % 2 === 0 ? 'X': 'O';
+    let winner = false;
+    turnSpan.textContent = turnText;
+
+    const winConditions = [
+      // Rows
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      
+      // Columns
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      
+      // Diagonals
+      [0, 4, 8],
+      [2, 4, 6]
+    ];
+    let moves = Array(NUM_SQUARES).fill('-');
+
+    // Add X or O to each square on click.
+    const squares = document.querySelectorAll('.square');
+    for (let i=0; i<NUM_SQUARES; i++){
+      // MUST use "let" here. Because otherwise, square is global.
+      // If square is global, the same global variable is updated over the for loop.
+      // When it is referenced in the event handler, it will always be 8,
+      // instead of being the correct value of i.
+      let square = squares[i];
+      square.addEventListener('click', () => {
+        if (square.textContent === '' && !winner) {
+          square.textContent = turnText; // Better practice than .innerHTML
+          turn += 1;
+          turnText = turn % 2 === 0 ? 'X': 'O';
+          turnSpan.textContent = turnText;
+
+          // Check for game-end conditions.
+          moves = Array.from(squares).map(s => s.textContent === '' ? '-' : s.textContent);
+          let boardIsFull = !moves.includes('-');
+          let tile;
+          for (const win of winConditions) {
+            tile = moves[win[0]];
+            if (tile === '-') continue;
+            if (tile !== moves[win[1]]) continue;
+            if (tile !== moves[win[2]]) continue;
+            winner = true;
+            win.forEach(j => {
+              squares[j].style.backgroundColor = "var(--crimson)";
+              squares[j].style.border = "5px solid black";
+            });
+            break;
+          }
+          let winnerSpan = document.querySelector('#winner-text');
+          if (winner === true) {
+            winnerSpan.textContent = tile + " WON!!";
+          }
+          else if (boardIsFull) {
+            winnerSpan.textContent = "None (stalemate)";
+          }
+        }
+      });
+    }
+
+    // "Start Game" button should reset the board.
+    const startButton = document.querySelector('#start-button');
+    startButton.addEventListener('click', event => {
+      const squares = document.querySelectorAll('.square');
+      for (const s of squares) {
+        s.textContent = "";
+        s.style.border = "3px solid black";
+        s.style.backgroundColor = "var(--grey)";
+      };
+      let winnerSpan = document.querySelector('#winner-text');
+      winnerSpan.textContent = "None";
+      moves = Array(NUM_SQUARES).fill('-');
+      turn = Math.round(Math.random());
+      turnText = turn % 2 === 0 ? 'X': 'O';
+      winner = false;
+      turnSpan.textContent = turnText;
+    })
+
+  </script>
+</body>
+</html>
