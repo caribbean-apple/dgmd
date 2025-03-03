@@ -1,13 +1,19 @@
-
+urls:
+https://caribbean-apple.github.io/dgmd/hw2c/ttt5.html
 
 Answer to question: Identify an area of JS code in the final solution (ttt5) you feel really good about – and indicate why.
 
           for (const win of winConditions) {
-            tile = moves[win[0]];
-            if (tile === '-') continue;
-            if (tile !== moves[win[1]]) continue;
-            if (tile !== moves[win[2]]) continue;
+            const tiles = moves[win[0]] + moves[win[1]] + moves[win[2]];
+            if (tiles === "XXX"){
+              winningTile = 'X';
+            }
+            else if (tiles === "OOO") {
+              winningTile = 'O'
+            }
+            else {
+              continue;
+            }
 	    ...
-          }
 
 I like the snippet above. At first I used winConditions.forEach, but I realized that you can't use continue and break. You can use return instead of continue, but I found this easily confusable with making the function return. I learned online about for..of, and I think it's nicer for this use case.

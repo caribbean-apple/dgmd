@@ -88,7 +88,7 @@
     let turn = Math.round(Math.random());
     let turnSpan = document.querySelector('#turn-text');
     let turnText = turn % 2 === 0 ? 'X': 'O';
-    let winner = false;
+    let winningTile = '';
     turnSpan.textContent = turnText;
 
     const winConditions = [
@@ -117,34 +117,38 @@
       // instead of being the correct value of i.
       let square = squares[i];
       square.addEventListener('click', () => {
-        if (square.textContent === '' && !winner) {
+        if (square.textContent === '' && winningTile === '') {
           square.textContent = turnText; // Better practice than .innerHTML
           turn += 1;
           turnText = turn % 2 === 0 ? 'X': 'O';
           turnSpan.textContent = turnText;
 
-          // Check for game-end conditions.
+          // Check if the board is full.
           moves = Array.from(squares).map(s => s.textContent === '' ? '-' : s.textContent);
           let boardIsFull = !moves.includes('-');
-          let tile;
+          if (boardIsFull) {
+            let winnerSpan = document.querySelector('#winner-text');
+            winnerSpan.textContent = "None (stalemate)";
+          }
+          // Check if someone has won.
           for (const win of winConditions) {
-            tile = moves[win[0]];
-            if (tile === '-') continue;
-            if (tile !== moves[win[1]]) continue;
-            if (tile !== moves[win[2]]) continue;
-            winner = true;
+            const tiles = moves[win[0]] + moves[win[1]] + moves[win[2]];
+            if (tiles === "XXX"){
+              winningTile = 'X';
+            }
+            else if (tiles === "OOO") {
+              winningTile = 'O'
+            }
+            else {
+              continue;
+            }
+            // If you get here, someone has won.
             win.forEach(j => {
               squares[j].style.backgroundColor = "var(--crimson)";
               squares[j].style.border = "5px solid black";
             });
-            break;
-          }
-          let winnerSpan = document.querySelector('#winner-text');
-          if (winner === true) {
-            winnerSpan.textContent = tile + " WON!!";
-          }
-          else if (boardIsFull) {
-            winnerSpan.textContent = "None (stalemate)";
+            let winnerSpan = document.querySelector('#winner-text');
+            winnerSpan.textContent = winningTile + " WON!!";
           }
         }
       });
@@ -164,7 +168,7 @@
       moves = Array(NUM_SQUARES).fill('-');
       turn = Math.round(Math.random());
       turnText = turn % 2 === 0 ? 'X': 'O';
-      winner = false;
+      winningTile = '';
       turnSpan.textContent = turnText;
     })
 
