@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
         Hotdogs: 4.00,
         Fries: 3.50,
         Soda: 1.50,
-        Sauerkraut: 1.00
+        Sauerkraut: 1.00 
       }
       const menuContainer = document.querySelector('#menu-container')!;
       for(let itemName in menu) {
@@ -31,12 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
       addToCartButton.addEventListener('click', event => {
         event.preventDefault(); // Stop button from default submission (necessary if <form> is added)
         let menuInput = document.querySelector('#menu-input') as HTMLInputElement;
-        if (!menuInput) {
-            // This does not handle the case where menuInput is empty.
-            // In that case, nothing happens.
-            console.error("Menu input not found.");
-            menuInput = { value: Object.keys(cart)[0] } as HTMLInputElement; // Create a fallback object
-        }
         let menuInputTextLower = menuInput.value.toLowerCase();
         const menuItems = Object.keys(menu);
         let menuMatches = menuItems.filter(x => x.toLowerCase() === menuInputTextLower);
@@ -75,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (cart[item] === 0) continue;
             let extraSpaces = " ".repeat(18 - item.length);
             let lineTotal = cart[item] * menu[item];
-            outputString += `${item}: ${extraSpaces} $${lineTotal.toFixed(2)}\n`;
+            outputString += `${cart[item]} of ${item}: ${extraSpaces} $${lineTotal.toFixed(2)}\n`;
             runningTotal += cart[item] * menu[item];
         }
         outputString += `Total: ${" ".repeat(18 - 7)} $${runningTotal.toFixed(2)}`;

@@ -1,0 +1,19 @@
+urls:
+
+https://caribbean-apple.github.io/dgmd/hw3a/hw3a.html
+https://caribbean-apple.github.io/dgmd/hw3a/hw3a.css
+https://caribbean-apple.github.io/dgmd/hw3a/hw3a.js
+
+Question Answer:
+What are a) the most interesting and b) the most surprising Javascript constructs we have learned in the past few weeks.
+
+a) Most interesting was the use of the spread operator to make a function with variably many arguments
+
+myfunc = function (...myArgs) {
+  console.log(myArgs[0], myArgs[1]);
+}
+
+b) Most surprising was that array sort sorts as a string even if all elements are numbers, so you have to use a comparison function to sort numbers
+
+const numbers = [100,1,2,3];
+numbers.sort((a,b) => a - b);
