@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wordle</title>
+  <link rel="stylesheet" href="hw4.css">
+  <script src="hw4.js"></script>
+</head>
+<body>
+  <header>
+    <div id="debug-mode-checkbox-div">Debug Mode: <input id="debug-mode-checkbox" type="checkbox"></div>
+  </header>
+  <main>
+    <div id="game-container">
+      <h1>Wordle</h1>
+      <p>Enter a word!</p>
+      <div id="previous-words"></div>
+      <div id="input-container">
+        <form>
+          <input type="text" id="word-input" maxlength="5"><button class="button" id="word-input-button">GO</button>
+        </form>
+      </div>
+    </div>
+    <span id="user-message"></span><br>
+    <button class="button" id="restart-button">RESTART</button>
+    <div id="user-responses"></div> 
+    <div id="debug-mode-solution"></div>
+    <div id="used-letters">
+      <!-- Note: I use comments in between lines here to prevent html from adding undesired spaces in place of my newlines -->
+      <!-- Next time I might just use flexbox or grid since this is a pain in the... glass! -->
+      <span id="q" class="used-letter">q</span><span id="w" class="used-letter">w</span><span id="e" class="used-letter">e</span><!--
+      --><span id="r" class="used-letter">r</span><span id="t" class="used-letter">t</span><span id="y" class="used-letter">y</span><!--
+      --><span id="u" class="used-letter">u</span><span id="i" class="used-letter">i</span><span id="o" class="used-letter">o</span><!--
+      --><span id="p" class="used-letter">p</span><br><!--
+
+      --><span id="a" class="used-letter">a</span><span id="s" class="used-letter">s</span><span id="d" class="used-letter">d</span><!--
+      --><span id="f" class="used-letter">f</span><span id="g" class="used-letter">g</span><span id="h" class="used-letter">h</span><!--
+      --><span id="j" class="used-letter">j</span><span id="k" class="used-letter">k</span><span id="l" class="used-letter">l</span><br><!--
+
+      --><span id="z" class="used-letter">z</span><span id="x" class="used-letter">x</span><span id="c" class="used-letter">c</span><!--
+      --><span id="v" class="used-letter">v</span><span id="b" class="used-letter">b</span><span id="n" class="used-letter">n</span><!--
+      --><span id="m" class="used-letter">m</span><br>
+    </div>
+  </main>
+</body>
+</html>

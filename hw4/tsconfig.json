@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "target": "es2023",
+    "lib": ["dom", "es2023"],
+    "outDir": "."
+  },
+  "compileOnSave": true,
+  "include": ["*.ts", "**/*.ts"],
+  "exclude": []
+}
