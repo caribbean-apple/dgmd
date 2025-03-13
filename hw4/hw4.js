@@ -1,13 +1,43 @@
+class GameStatus {
+    solutionList;
+    maxAttempts = 6;
+    solution;
+    numAttempts;
+    isWon;
+    // Start the game & choose a solution.
+    constructor(solutionList = [
+        "foyer", "catch", "watch", "mummy", "cater",
+        "coyly", "trite", "found", "tacit"
+    ]) {
+        this.solutionList = solutionList;
+        this.solution = this.getRandomSolution();
+        this.numAttempts = 0;
+        this.isWon = false;
+    }
+    // Reset the game
+    reset() {
+        const previousSolution = this.solution;
+        this.numAttempts = 0;
+        this.isWon = false;
+        do {
+            this.solution = this.getRandomSolution();
+        } while (this.solution === previousSolution);
+    }
+    // Choose a solution from the given list
+    getRandomSolution() {
+        return this.solutionList[Math.floor(Math.random() * this.solutionList.length)];
+    }
+}
 document.addEventListener("DOMContentLoaded", () => {
     // Wait until the HTML content loads. Then set up all functionality on the page.
-    var solution = "tacit"; // must be lower-case!
-    var numAttempts = 0;
-    const MAX_ATTEMPTS = 6;
-    var isWon = false;
-    const wordleGreen = getComputedStyle(document.documentElement).getPropertyValue('--wordle-green').trim();
-    const wordleYellow = getComputedStyle(document.documentElement).getPropertyValue('--wordle-yellow').trim();
-    const wordleGray = getComputedStyle(document.documentElement).getPropertyValue('--wordle-gray').trim();
-    const wordleBlack = getComputedStyle(document.documentElement).getPropertyValue('--wordle-black').trim();
+    // Initialize a game, and choose a solution.
+    var game = new GameStatus();
+    const color = {
+        wordleGreen: getComputedStyle(document.documentElement).getPropertyValue('--wordle-green').trim(),
+        wordleYellow: getComputedStyle(document.documentElement).getPropertyValue('--wordle-yellow').trim(),
+        wordleGray: getComputedStyle(document.documentElement).getPropertyValue('--wordle-gray').trim(),
+        wordleBlack: getComputedStyle(document.documentElement).getPropertyValue('--wordle-black').trim()
+    };
     let userMessageSpan = document.querySelector("#user-message");
     let debugModeSolutionDiv = document.querySelector("#debug-mode-solution");
     let restartButton = document.querySelector("#restart-button");
@@ -29,38 +59,38 @@ document.addEventListener("DOMContentLoaded", () => {
             let s = document.createElement('span');
             s.textContent = letter;
             s.className = "letter";
-            if (word[letterIndex] === solution[letterIndex]) {
-                s.style.backgroundColor = wordleGreen;
+            if (word[letterIndex] === game.solution[letterIndex]) {
+                s.style.backgroundColor = color.wordleGreen;
                 userResponseDiv.innerHTML += `the ${letter} is in the right place<br>`;
                 let usedLetterSpan = document.querySelector(`#${letter}`);
                 usedLetterSpan.style.opacity = '1.0';
-                usedLetterSpan.style.backgroundColor = wordleGreen;
+                usedLetterSpan.style.backgroundColor = color.wordleGreen;
             }
-            else if (solution.includes(word[letterIndex])) {
-                s.style.backgroundColor = wordleYellow;
+            else if (game.solution.includes(word[letterIndex])) {
+                s.style.backgroundColor = color.wordleYellow;
                 userResponseDiv.innerHTML += `the ${letter} is in the wrong place<br>`;
                 let usedLetterSpan = document.querySelector(`#${letter}`);
                 usedLetterSpan.style.opacity = '1.0';
-                usedLetterSpan.style.backgroundColor = wordleYellow;
+                usedLetterSpan.style.backgroundColor = color.wordleYellow;
             }
             else {
-                s.style.backgroundColor = wordleGray;
+                s.style.backgroundColor = color.wordleGray;
                 userResponseDiv.innerHTML += `the ${letter} is not in the word<br>`;
                 let usedLetterSpan = document.querySelector(`#${letter}`);
                 usedLetterSpan.style.opacity = '1.0';
-                usedLetterSpan.style.backgroundColor = wordleGray;
+                usedLetterSpan.style.backgroundColor = color.wordleGray;
             }
             newWordDiv.appendChild(s);
         });
         previousWordsDiv.appendChild(newWordDiv);
-        numAttempts += 1;
+        game.numAttempts += 1;
         // Check win or lose condition
-        if (word === solution) {
-            isWon = true;
+        if (word === game.solution) {
+            game.isWon = true;
             userMessageSpan.textContent = "CONGRATS! You win! 🚀";
             restartButton.style.display = "inline-block";
         }
-        else if (numAttempts >= MAX_ATTEMPTS) {
+        else if (game.numAttempts >= game.maxAttempts) {
             userMessageSpan.textContent = "CONGRATS! You lose! 😇";
             restartButton.style.display = "inline-block";
         }
@@ -70,11 +100,11 @@ document.addEventListener("DOMContentLoaded", () => {
     wordInputButton.addEventListener('click', event => {
         event.preventDefault();
         // If game is already won or lost, do nothing.
-        if (numAttempts >= MAX_ATTEMPTS) {
-            userMessageSpan.textContent = `You've already used all ${MAX_ATTEMPTS} attempts! You lost!`;
+        if (game.numAttempts >= game.maxAttempts) {
+            userMessageSpan.textContent = `You've already used all ${game.maxAttempts} attempts! You lost!`;
             return;
         }
-        if (isWon) {
+        if (game.isWon) {
             userMessageSpan.textContent = `You already won! Stop playing!`;
             return;
         }
@@ -88,8 +118,8 @@ document.addEventListener("DOMContentLoaded", () => {
             updateUserMessage("Invalid word. Please enter a valid 5-letter word.");
             return;
         }
-        let isValidInput;
-        let dictionaryPromise = fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${input}`);
+        var isValidInput;
+        var dictionaryPromise = fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${input}`);
         dictionaryPromise.then(response => {
             isValidInput = response.ok ? true : false;
             if (!isValidInput) {
@@ -109,12 +139,11 @@ document.addEventListener("DOMContentLoaded", () => {
     let debugModeOn = false;
     debugModeCheckbox.addEventListener("change", () => {
         debugModeOn = !debugModeOn;
-        debugModeSolutionDiv.textContent = debugModeOn ? `DEBUG MODE. SOLUTION: ${solution}` : "";
+        debugModeSolutionDiv.textContent = debugModeOn ? `DEBUG MODE. SOLUTION: ${game.solution}` : "";
     });
     // Restart button functionality
     restartButton.addEventListener("click", () => {
-        numAttempts = 0;
-        isWon = false;
+        game.reset();
         previousWordsDiv.textContent = "";
         userMessageSpan.textContent = "";
         userResponseDiv.textContent = "";
@@ -122,9 +151,8 @@ document.addEventListener("DOMContentLoaded", () => {
         let usedLetterDiv = document.querySelector("#used-letters");
         let usedLetterSpans = Array.from(usedLetterDiv.querySelectorAll(":scope > span"));
         usedLetterSpans.forEach((letterSpan) => {
-            console.log("hello");
             letterSpan.style.opacity = "0.15";
-            letterSpan.style.backgroundColor = wordleBlack;
+            letterSpan.style.backgroundColor = color.wordleBlack;
         });
     });
 });
