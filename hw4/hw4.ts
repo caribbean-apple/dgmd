@@ -168,6 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
     restartButton.style.display = "none";
     let usedLetterDiv = document.querySelector("#used-letters")! as HTMLDivElement;
     let usedLetterSpans = Array.from(usedLetterDiv.querySelectorAll(":scope > span")) as HTMLSpanElement[];
+    debugModeSolutionDiv.textContent = debugModeOn ? `DEBUG MODE. SOLUTION: ${game.solution}` : "";
     usedLetterSpans.forEach((letterSpan:HTMLSpanElement) => { 
       letterSpan.style.opacity = "0.15";
       letterSpan.style.backgroundColor = color.wordleBlack;
