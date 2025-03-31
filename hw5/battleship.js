@@ -2,10 +2,16 @@
 // referenced divs globally available.
 let boardDiv;
 let userMessageDiv;
+let hitImage;
+let missImage;
+let sunkImage;
 document.addEventListener("DOMContentLoaded", async () => {
   // DOM element initialization
   boardDiv = document.querySelector('#battleship-container');
   userMessageDiv = document.querySelector("#user-message");
+  hitImage = document.querySelector('#hit-image');
+  missImage = document.querySelector('#miss-image');
+  sunkImage = document.querySelector('#sunk-image');
   
   // Game initialization
   const game = new BattleshipGame();
@@ -19,11 +25,30 @@ function cleanShipName(shipName) {
   else return shipName;
 }
 
+function showActionImage(actionString) {
+  missImage.style.display = "none";
+  hitImage.style.display = "none";
+  sunkImage.style.display = "none";
+
+  switch(actionString) {
+    case "miss":
+      missImage.style.display = "block";
+      break;
+    case "hit":
+      hitImage.style.display = "block";
+      break;
+    case "sunk":
+      sunkImage.style.display = "block";
+      break;
+    case "none":
+      break;
+  }
+}
+
 class GameSquare {
   constructor(boardDiv, game) {
     // If ship is here, this.content is the ship name.
     // If nothing is here, this.content is "".
-    // If the square hasn't been hit yet, postpend "?"
     this.content = "";
     this.hasBeenHit = false;
 
@@ -34,9 +59,6 @@ class GameSquare {
     squareDiv.classList.add('game-square');
     squareDiv.classList.add('unknown-square');
     
-    const hitImage = document.querySelector('#hit-image');
-    const missImage = document.querySelector('#miss-image');
-    const sunkImage = document.querySelector('#sunk-image');
     const turnsRemainingSpan = document.querySelector('#turns-remaining');
 
     // Click a square to move!
@@ -56,10 +78,7 @@ class GameSquare {
         squareDiv.classList.remove('unknown-square');
         squareDiv.classList.add('missed-square');
         userMessageDiv.textContent = "Miss!";
-        missImage.style.display = "block";
-        hitImage.style.display = "none";
-        sunkImage.style.display = "none";
-        userMessageDiv.textContent = "Miss!";
+        showActionImage("miss");
       }
       else {
         squareDiv.classList.remove('unknown-square');
@@ -69,23 +88,17 @@ class GameSquare {
         if (this.game.shipsStatus[shipName].squaresRemaining == 0) {
           userMessageDiv.textContent = 'You sunk a ship!';
           this.game.shipsRemaining -= 1;
-          missImage.style.display = "none";
-          hitImage.style.display = "none";
-          sunkImage.style.display = "block";
+          showActionImage("sunk");
         }
         else {
           userMessageDiv.textContent = "Hit!";
-          missImage.style.display = "none";
-          hitImage.style.display = "block";
-          sunkImage.style.display = "none";
+          showActionImage("hit");
         }
       }
 
       if (this.game.shipsRemaining < 1) {
         userMessageDiv.textContent = "You won! Congrats!";
-        missImage.style.display = "none";
-        hitImage.style.display = "none";
-        sunkImage.style.display = "none";
+        showActionImage("none");
         for(let row of this.game.board) {
           for(let square of row) {
             square.squareDiv.textContent = cleanShipName(square.content);
@@ -95,9 +108,7 @@ class GameSquare {
 
       if (this.game.guessesRemaining == 0) {
         userMessageDiv.textContent = "You ran out of guesses! Merp."
-        missImage.style.display = "none";
-        hitImage.style.display = "none";
-        sunkImage.style.display = "none";
+        showActionImage("none");
         for(let row of this.game.board) {
           for(let square of row) {
             square.squareDiv.textContent = cleanShipName(square.content);
@@ -149,7 +160,7 @@ class BattleshipGame {
   async placeShips() {
     let ships;
     try {
-      const response = await fetch('battleship.json');
+      const response = await fetch('/battleship.json');
       const data = await response.json();
       ships = data.ships;
     } catch (error) {
@@ -158,23 +169,21 @@ class BattleshipGame {
     this.shipsRemaining = ships.length;
 
     for (let ship of ships) {
-      // Figure out occupied squares.
-      let occupiedSquares = [];
       const [startCol, startRow] = ship.coords;
       
-      // Add occupied squares to board square
+      // Add ships to board squares
       for (let i = 0; i < ship.size; i++) {
         let col = startCol;
         let row = startRow;
         
         if (ship.orientation === 'horizontal') {
           col += i;
-        } else { // vertical
+        } 
+        else { // vertical
           row += i;
         }
         
         // Adjust to 0-based indexing
-        occupiedSquares.push([col, row]);
         this.board[row-1][col-1].content = ship.name;
       }
 

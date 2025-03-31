@@ -1,0 +1,15 @@
+URLs:
+https://caribbean-apple.github.io/dgmd/hw5/battleship.html
+https://caribbean-apple.github.io/dgmd/hw5/battleship.css
+https://caribbean-apple.github.io/dgmd/hw5/battleship.js
+https://caribbean-apple.github.io/dgmd/hw5/battleship.json
+Plus all of the relevant image files, in the same base path:
+hit.jpg, miss.png, ocean.jpg, ship.jpg, sunk.webp, clouds.jpg
+
+Questions answered:
+1.	Of the object variations we have learned, which feels the most useful to you?
+I wouldn't say one is more useful than the other, they just have different use cases. Object literals are best for one-off, simple objects. Classes are best if you want the functionality of a constructor, instancing, and inheritance.
+
+2.	What was the easiest part of this assignment?
+I don't think any of the parts were difficult on their own but the sum total of all of them took time.
+You could say that writing the HTML file was the easiest part because most of the work is in the js file.
