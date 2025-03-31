@@ -149,7 +149,7 @@ class BattleshipGame {
   async placeShips() {
     let ships;
     try {
-      const response = await fetch('/battleship.json');
+      const response = await fetch('battleship.json');
       const data = await response.json();
       ships = data.ships;
     } catch (error) {
