@@ -1,0 +1,10 @@
+URLs:
+https://caribbean-apple.github.io/dgmd/hw6-react-with-wordle/wordle-react.html
+https://caribbean-apple.github.io/dgmd/hw6-react-with-wordle/wordle-react.css
+https://caribbean-apple.github.io/dgmd/hw6-react-with-wordle/wordle-react.js
+
+Answer to the question:  
+Which seems better for creating the elements of the app:  JS alone or JS with React?
+So far, JS alone seems easier. But I appreciate the flexibility you get from creating variable components. I think that once we start with JSX things will ramp up in favor of React. That will be even more true for bigger projects.
+
+In class it was mentioned that we don't need to host online, but in the word doc it says to host online so I'm just going ahead with it.
